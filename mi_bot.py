@@ -1,16 +1,28 @@
 import discord
 from discord.ext import commands
+import requests
 
-TOKEN = 'Agregar token de bot aqui'
+TOKEN = 'NO OLVIDAR EL TOKEN!'
 
 intents = discord.Intents.default()
 intents.messages = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 
+async def consulta_ninja_cat_api():
+    url = 'https://catfact.ninja/fact?max_length=1000'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        return data['fact']
+    else:
+        return 'No se pudo obtener un hecho de gatos en este momento. Inténtalo de nuevo más tarde.'
+
+
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} ha iniciado sesión')
+
 
 @bot.command()
 async def enviar_mensaje(ctx, usuario: discord.User, *, mensaje: str):
@@ -31,28 +43,16 @@ async def anunciar(ctx, canal: discord.TextChannel, *, mensaje: str):
     await canal.send(mensaje)
     await ctx.send(f'Anuncio enviado al canal {canal.mention}')
 
+
 @bot.command()
 async def consulta_api(ctx):
-    # TODO Realizar la consulta a la API aquí
-    await ctx.send('Resultado de la consulta a la API')
+    fact = await consulta_ninja_cat_api()
+    await ctx.send(fact)
+
+
+@bot.command()
+async def fact_gato(ctx):
+    fact = await consulta_ninja_cat_api()
+    await ctx.send(fact)
 
 bot.run(TOKEN)
-
-
-# Función para probar enviar un mensaje privado
-# async def probar_enviar_mensaje():
-#     # Reemplaza usuario_id con el ID de 'nachin7u7'
-#     print("enviando mensaje...")
-#     usuario = await bot.fetch_user("nachin7u7#0657")
-#     await bot.invoke(await bot.get_context(discord.Message(content=f"!enviar_mensaje {usuario.mention} Hola, esto es un mensaje privado para ti.")))
-
-# Función para probar hacer un anuncio
-
-
-# async def probar_anunciar():
-#     print("enviando anuncio...")
-#     await bot.invoke(await bot.get_context(discord.Message(content="!anunciar Hola! Soy el bot de prueba y esto es una prueba.")))
-
-# Llama a las funciones de prueba
-# bot.loop.create_task(probar_enviar_mensaje())
-# bot.loop.create_task(probar_anunciar())
