@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import requests
 
-TOKEN = 'NO OLVIDAR EL TOKEN!'
+TOKEN = 'TOKEN AQUI NO OLVIDAR!!!'
 
 intents = discord.Intents.default()
 intents.messages = True
@@ -27,32 +27,53 @@ async def on_ready():
 @bot.command()
 async def enviar_mensaje(ctx, usuario: discord.User, *, mensaje: str):
     await usuario.send(mensaje)
-    await ctx.send(f'Se ha enviado un mensaje a {usuario.name}')
+    embed = discord.Embed(title="Mensaje Enviado",
+                          description=f'Se ha enviado un mensaje a {usuario.mention}', color=0x00ff00)
+    if bot.user.avatar:
+        embed.set_thumbnail(url=bot.user.avatar.url)
+    await ctx.send(embed=embed)
 
 
 @bot.command()
 async def verificar(ctx):
     if discord.utils.get(ctx.author.roles, name='Admin'):
-        await ctx.send('¡Eres un administrador!')
+        embed = discord.Embed(
+            title="Verificación", description="¡Eres un administrador! :crown:", color=0x00ff00)
     else:
-        await ctx.send('No eres un administrador.')
+        embed = discord.Embed(
+            title="Verificación", description="No eres un administrador.", color=0xff0000)
+    if bot.user.avatar:
+        embed.set_thumbnail(url=bot.user.avatar.url)
+    await ctx.send(embed=embed)
 
 
 @bot.command()
 async def anunciar(ctx, canal: discord.TextChannel, *, mensaje: str):
-    await canal.send(mensaje)
-    await ctx.send(f'Anuncio enviado al canal {canal.mention}')
+    await canal.send(embed=discord.Embed(title="Anuncio", description=mensaje, color=0x00ff00))
+    embed = discord.Embed(
+        title="Anuncio", description=f'Anuncio enviado al canal {canal.mention}', color=0x00ff00)
+    if bot.user.avatar:
+        embed.set_thumbnail(url=bot.user.avatar.url)
+    await ctx.send(embed=embed)
 
 
 @bot.command()
 async def consulta_api(ctx):
     fact = await consulta_ninja_cat_api()
-    await ctx.send(fact)
+    embed = discord.Embed(
+        title="Consulta API", description=f'**Hecho de gatos:**\n\n*{fact}*', color=0x00ff00)
+    if bot.user.avatar:
+        embed.set_thumbnail(url=bot.user.avatar.url)
+    await ctx.send(embed=embed)
 
 
 @bot.command()
 async def fact_gato(ctx):
     fact = await consulta_ninja_cat_api()
-    await ctx.send(fact)
+    embed = discord.Embed(title="Hecho de gatos",
+                          description=f'\n\n*{fact}*', color=0x00ff00)
+    if bot.user.avatar:
+        embed.set_thumbnail(url=bot.user.avatar.url)
+    await ctx.send(embed=embed)
 
 bot.run(TOKEN)
