@@ -27,8 +27,7 @@ async def on_ready():
 @bot.command()
 async def enviar_mensaje(ctx, usuario: discord.User, *, mensaje: str):
     await usuario.send(mensaje)
-    embed = discord.Embed(title="Mensaje Enviado",
-                          description=f'Se ha enviado un mensaje a {usuario.mention}', color=0x00ff00)
+    embed = discord.Embed(title="Mensaje Enviado", description=f'Se ha enviado un mensaje a {usuario.mention}', color=0x00ff00)
     if bot.user.avatar:
         embed.set_thumbnail(url=bot.user.avatar.url)
     await ctx.send(embed=embed)
@@ -37,11 +36,9 @@ async def enviar_mensaje(ctx, usuario: discord.User, *, mensaje: str):
 @bot.command()
 async def verificar(ctx):
     if discord.utils.get(ctx.author.roles, name='Admin'):
-        embed = discord.Embed(
-            title="Verificación", description="¡Eres un administrador! :crown:", color=0x00ff00)
+        embed = discord.Embed(title="Verificación", description="¡Eres un administrador! :crown:", color=0x00ff00)
     else:
-        embed = discord.Embed(
-            title="Verificación", description="No eres un administrador.", color=0xff0000)
+        embed = discord.Embed(title="Verificación", description="No eres un administrador.", color=0xff0000)
     if bot.user.avatar:
         embed.set_thumbnail(url=bot.user.avatar.url)
     await ctx.send(embed=embed)
@@ -50,8 +47,7 @@ async def verificar(ctx):
 @bot.command()
 async def anunciar(ctx, canal: discord.TextChannel, *, mensaje: str):
     await canal.send(embed=discord.Embed(title="Anuncio", description=mensaje, color=0x00ff00))
-    embed = discord.Embed(
-        title="Anuncio", description=f'Anuncio enviado al canal {canal.mention}', color=0x00ff00)
+    embed = discord.Embed(title="Anuncio", description=f'Anuncio enviado al canal {canal.mention}', color=0x00ff00)
     if bot.user.avatar:
         embed.set_thumbnail(url=bot.user.avatar.url)
     await ctx.send(embed=embed)
@@ -60,8 +56,7 @@ async def anunciar(ctx, canal: discord.TextChannel, *, mensaje: str):
 @bot.command()
 async def consulta_api(ctx):
     fact = await consulta_ninja_cat_api()
-    embed = discord.Embed(
-        title="Consulta API", description=f'**Hecho de gatos:**\n\n*{fact}*', color=0x00ff00)
+    embed = discord.Embed(title="Consulta API", description=f'**Hecho de gatos:**\n\n*{fact}*', color=0x00ff00)
     if bot.user.avatar:
         embed.set_thumbnail(url=bot.user.avatar.url)
     await ctx.send(embed=embed)
@@ -70,8 +65,7 @@ async def consulta_api(ctx):
 @bot.command()
 async def fact_gato(ctx):
     fact = await consulta_ninja_cat_api()
-    embed = discord.Embed(title="Hecho de gatos",
-                          description=f'\n\n*{fact}*', color=0x00ff00)
+    embed = discord.Embed(title="Hecho de gatos", description=f'\n\n*{fact}*', color=0x00ff00)
     if bot.user.avatar:
         embed.set_thumbnail(url=bot.user.avatar.url)
     await ctx.send(embed=embed)
