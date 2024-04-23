@@ -47,4 +47,3 @@ Puedes probar el bot en un servidor de Discord donde tengas permisos de administ
 ## Autores
 
 Este bot fue desarrollado por el Equipo de DevOps.
-```
